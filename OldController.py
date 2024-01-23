@@ -3,6 +3,7 @@ import tkinter
 from Player.PlayerModel import *
 from Player.PlayerView import *
 from Asteroid.AsteroidModel import *
+from Asteroid.AsteroidView import *
 class OldController:
     def __init__(self, model, view, controllers):
         self.model = model
@@ -16,13 +17,29 @@ class OldController:
 
         self.view.Start()
 
-    def CheckCollision(self):
-        pass
+    def CheckCollition(self):
+        player = self.model.get_model(PlayerModel)
+        asteroid_model = self.model.get_model(AsteroidModel)
+        for asteroid in asteroid_model.asteroids:
+            if Distance(player.position, asteroid.position) <= (asteroid.radius + player.radius):
+                player.hit_point -= 1
+                self.DestroyAsteroid(asteroid)
+                print(player.hit_point, '-----------------------------')
+
+
+    def DestroyAsteroid(self, asteroid):
+        asteroid_model = self.model.get_model(AsteroidModel)
+        asteroid_model.asteroids.remove(asteroid)
+        asteroid_model.number_of_asteroids -= 1
+        self.view.get_view(AsteroidView).number_of_asteroids -= 1
+        #Уничтожение view части астероида
+
+
 
     def Update(self, delta_time):
         for controller in self.controllers:
             self.controllers[controller].Update(delta_time)
-
+        self.CheckCollition()
         self.view.get_view(PlayerView).ShowPos(self.model.get_model(PlayerModel).position,
                                                self.model.get_model(PlayerModel).angle)
 

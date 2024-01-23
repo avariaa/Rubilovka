@@ -7,6 +7,7 @@ class AsteroidController:
         self.view = view
         self.view.Start(self.model.number_of_asteroids)
 
+
     def Update(self, delta_time):
         self.model.Move(delta_time)
         self.view.ShowPos(self.model.asteroids)

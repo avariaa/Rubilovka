@@ -1,17 +1,11 @@
 import random
 import time
 from Player.Position import *
-from math import *
-
+from Utility import *
+import Utility
 seed_a = time.time()
 print(seed_a)
 
-
-HEIGHT = 500
-WIDTH = 500
-
-def Distance(pos1: Position, pos2: Position):
-    return ((pos1.x - pos2.x)**2 + (pos1.y - pos2.y)**2)**(1/2)
 
 class Asteroid:
     a = ['small', 'medium', 'big']
@@ -69,35 +63,3 @@ class Asteroid:
         print(self.position.x)
         self.position.x += self.speed * delta_time
         self.CheckBounds()
-
-class AsteroidModel:
-    def __init__(self, number_of_asteroids=15):
-        self.number_of_asteroids = number_of_asteroids
-        self.asteroids = [Asteroid() for i in range(number_of_asteroids)]
-
-
-    def CheckCollision(self):
-        for asteroid1 in self.asteroids:
-            for asteroid2 in self.asteroids:
-                if asteroid1 == asteroid2:
-                    pass
-                else:
-                    while Distance(asteroid1.position, asteroid2.position) <= (asteroid1.radius + asteroid2.radius):
-                        if asteroid1.position.y > asteroid2.position.y:
-                            asteroid1.position.y += 1
-                            asteroid2.position.y -= 1
-                        else:
-                            asteroid1.position.y -= 1
-                            asteroid2.position.y += 1
-
-
-    def Move(self, delta_time):
-        print(self.asteroids)
-
-        for asteroid in self.asteroids:
-            if asteroid.position.x < asteroid.x_start:
-                self.CheckCollision()
-            asteroid.Move(delta_time)
-
-
-
