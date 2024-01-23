@@ -71,7 +71,7 @@ class Asteroid:
         self.CheckBounds()
 
 class AsteroidModel:
-    def __init__(self, number_of_asteroids=20):
+    def __init__(self, number_of_asteroids=15):
         self.number_of_asteroids = number_of_asteroids
         self.asteroids = [Asteroid() for i in range(number_of_asteroids)]
 
@@ -83,7 +83,12 @@ class AsteroidModel:
                     pass
                 else:
                     while Distance(asteroid1.position, asteroid2.position) <= (asteroid1.radius + asteroid2.radius):
-                        asteroid1.position.y += 3
+                        if asteroid1.position.y > asteroid2.position.y:
+                            asteroid1.position.y += 1
+                            asteroid2.position.y -= 1
+                        else:
+                            asteroid1.position.y -= 1
+                            asteroid2.position.y += 1
 
 
     def Move(self, delta_time):
